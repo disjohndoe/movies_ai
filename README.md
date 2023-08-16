@@ -1,2 +1,2 @@
 # movies_ai
-React movie streaming platform with AI voice functionality
+Movie streaming platform with AI voice functionality made in React
