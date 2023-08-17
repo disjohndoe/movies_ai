@@ -4,9 +4,12 @@ import { useSelector } from 'react-redux';
 
 import { Pagination, FeaturedMovie, MovieList } from '../index';
 import { useGetMovieQuery } from '../../services/TMDB';
+import { selectGenreOrCategory } from '../../features/currentGenreOrCategory' 
 
 const Movies = () => {
-    const { data, error, isFetching } = useGetMovieQuery();
+    const [page, setPage] = useState(1);
+    const { genreIDOrCategoryName } = useSelector((state)=> state.currentGenreOrCategory);
+    const { data, error, isFetching } = useGetMovieQuery({ genreIDOrCategoryName, page });
     
     if (isFetching) {
         return (
