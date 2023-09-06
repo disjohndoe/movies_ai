@@ -4,14 +4,20 @@ import { Search as SearchIcon } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 
+import { searchMovie } from '../../features/currentGenreOrCategory';
 import useStyles from './styles';
 
 const Search = () => {
-    const classes = useStyles();
-    const [query, setQuery] = useState('');
-    console.log('Search');
+  const [query, setQuery] = useState('');
+  const classes = useStyles();
+  const dispatch = useDispatch();
+    
 
-    const handleKeyPress = () => {
+    const handleKeyPress = (event) => {
+      if (event.key === 'Enter') {
+        console.log("Here", query)
+        dispatch(searchMovie(query));
+      }
 
     }
 
@@ -22,6 +28,14 @@ const Search = () => {
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         variant='standard'
+        InputProps={{
+          className: classes.input,
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          )
+        }}
         />
         </div>
   )
