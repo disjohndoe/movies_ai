@@ -32,12 +32,18 @@ export const tmdbApi = createApi({
             }
 
         }),
+
+        //* Get Movie
+        getMoviePage: builder.query({
+            query: (id) => `movie/${id}?api_key=${tmdbApiKey}&append_to_response=videos`
+            
+
+        }),
     }),
-})
-// https://api.themoviedb.org/3/movie/top-rated?api_key=87adf0b50a35e52bf93e3fe1d793e974&page=1
-// 
-//https://api.themoviedb.org/3/movie/top_rated?api_key=<<api_key>>&language=en-US&page=1
+});
+
 export const { 
     useGetMovieQuery,
     useGetGenresQuery,
+    useGetMoviePageQuery,
  } = tmdbApi;
