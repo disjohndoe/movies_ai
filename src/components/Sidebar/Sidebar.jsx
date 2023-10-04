@@ -7,7 +7,7 @@ import useStyles from './styles';
 import { useGetGenresQuery } from '../../services/TMDB';
 import genreIcons from '../../assets/genres'
 import { useDispatch, useSele, useSelector } from 'react-redux';
-import { selectGenreOrCategory } from '../../features/currentGenreOrCategory' 
+import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 
 const categories = [
     { label: "Popular", value: "popular" },
