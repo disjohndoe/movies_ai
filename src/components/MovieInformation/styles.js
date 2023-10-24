@@ -28,16 +28,19 @@ export default makeStyles((theme) => (
         marginBottom: '30px',
       },
     },
+    
     genresContainer: {
       margin: '10px 0 !important',
       display: 'flex',
       justifyContent:'space-around',
       flexWrap: 'wrap',
     },
+    
     genreImage: {
       filter: theme.palette.mode === 'dark' && 'invert(1)',
       marginRight: '10px',      
     },
+
     links: {
       display: 'flex',
       justifyContent:'center',
@@ -46,19 +49,19 @@ export default makeStyles((theme) => (
       [theme.breakpoints.down('sm')]: { padding: '0.5rem 1rem' },
     },
 
-  castImage: {
-    width: '100%',
-    maxWidth: '7em',
-    height: '8em',
-    objectFit: 'cover',
-    borderRadius: '10px',    
-  },
+    castImage: {
+      width: '100%',
+      maxWidth: '7em',
+      height: '8em',
+      objectFit: 'cover',
+      borderRadius: '10px',    
+    },
 
-  buttonsContainer: {
-    display: 'flex',
-    justifyContent: 'flex-center',
-    width:'auto',
-    [theme.breakpoints.down('sm')]: { flexDirection: 'column' },
-  },
+    buttonsContainer: {
+      display: 'flex',
+      justifyContent: 'flex-center',
+      width:'auto',
+      [theme.breakpoints.down('sm')]: { flexDirection: 'column' },
+    },
 }
 ));

@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useGetMoviePageQuery, useGetRecommedationsQuery } from "../../services/TMDB";
-
+import { MovieList } from '..';
 
 import genreIcons from '../../assets/genres'
 
@@ -20,7 +20,8 @@ const MovieInformation = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const { data: recommendations} = useGetRecommedationsQuery( { list: '/recommendations', movie_id: id } );
+    
+    const { data: recommendations, isFetching: isRecommendationFetching} = useGetRecommedationsQuery( { list: '/recommendations', movie_id: id } );
 
     const isMovieFavorited = false;
     const isMovieWatchlisted = false;
@@ -32,8 +33,8 @@ const MovieInformation = () => {
     
     const addToWatchlist = () => {
       
-    };    
-    
+    };
+
     if(isFetching) {
         return (
         <Box display="flex" justifyContent="center">
@@ -41,7 +42,7 @@ const MovieInformation = () => {
         </Box>
         );
     }
-
+    
     if(error) {
         return (
         <Box display="flex" justifyContent="center">
@@ -125,13 +126,31 @@ const MovieInformation = () => {
                    </Grid>
                 </div>
             </Grid>
-            </Grid>            
-            <Box marginTop="5rem" width="100%">
-              <Typography variant="h5" gutterBottom allign="center">Similar Movies You Might Like</Typography>
-              {/* Loop through the movies array and create a card for each movie */}
-            </Box> 
             </Grid>
-        </Grid>        
+            </Grid>
+                <Box marginTop="2rem">
+                  <Typography variant="h5" gutterBottom>
+                    Similar Movies You Might Like
+                  </Typography>
+                {recommendations ? (
+                recommendations.results && recommendations.results.length === 0 ? (
+                  <Typography variant='h6' gutterBottom>
+                    Sorry, nothing to recommend.
+                    <Typography gutterBottom style={{ fontStyle: 'italic', fontSize: '12px' }}>
+                      (The movie is new, and there is no IMDB data available currently. Check back shortly!)
+                    </Typography>
+                  </Typography>
+                      ) : (
+                        <MovieList movies={recommendations} numberOfMovies={12}/>
+                      )
+                      ) : 
+                      (
+                        <Typography gutterBottom variant='h6' align='center'>
+                          Loading...
+                        </Typography>
+                  )}
+                </Box>
+            </Grid>        
     );
 };
 
