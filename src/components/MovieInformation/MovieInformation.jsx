@@ -1,12 +1,13 @@
-import React from "react";
+import React from 'react';
 import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery, Rating } from '@mui/material';
 import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack, RemoveFromQueue, AddToQueue } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { useGetMoviePageQuery } from "../../services/TMDB";
-import genreIcons from '../../assets/genres'
+import { useGetMoviePageQuery, useGetRecommedationsQuery } from "../../services/TMDB";
 
+
+import genreIcons from '../../assets/genres'
 
 import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 import useStyles from "./styles"
@@ -15,20 +16,23 @@ import Movie from "../Movie/Movie";
 const MovieInformation = () => {
 
     const { id } = useParams();
-    const dispatch = useDispatch();
-    const { data, isFetching, error } = useGetMoviePageQuery(id)
+    const { data, error, isFetching } = useGetMoviePageQuery(id);
     const classes = useStyles();
+    const dispatch = useDispatch();
 
-    const addToFavorites = () => {
-
-    };
+    const { data: recommendations} = useGetRecommedationsQuery( { list: '/recommendations', movie_id: id } );
 
     const isMovieFavorited = false;
     const isMovieWatchlisted = false;
 
-    const addToWatchlist = () => {
+    const addToFavorites = () => {
 
     };
+    
+    
+    const addToWatchlist = () => {
+      
+    };    
     
     if(isFetching) {
         return (
@@ -44,7 +48,7 @@ const MovieInformation = () => {
             <Link to="/">Something went wrong, go back.</Link>
         </Box>
         );
-    }    
+    }
     return (        
         <Grid container className={classes.containerSpaceAround}>
             <Grid item sm={12} lg={4} align="center">
@@ -101,11 +105,11 @@ const MovieInformation = () => {
                   <Grid item xs={12} sm={6} >
                     <ButtonGroup size="medium" variant="outlined">
                       <Button target="_blank" rel="noopener noreferrer" href={data?.homepage} color="primary" endIcon={<Language />}>Website</Button>
-                      <Button target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/title/${data?.imdb_id}`} color="primary" endIcon={<MovieIcon />}>IMDB</Button>
+                      <Button target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/title/${data?.imdb_id}`} color="primary" endIcon={<MovieIcon />}>IMDB</Button>                      
                       <Button onClick={()=>{}} href="#" endIcon={<Theaters />}>Trailer</Button>
                     </ButtonGroup>
                   </Grid>
-                  <Grid item xs={12} sm={6} >
+                   <Grid item xs={12} sm={6} > 
                     <ButtonGroup size="medium" variant="outlined">
                       <Button onClick={addToFavorites} endIcon={isMovieFavorited ? <FavoriteBorderOutlined /> : <Favorite />}>
                       {isMovieFavorited ? 'Unfavorite' : 'Favorite'}
@@ -120,9 +124,12 @@ const MovieInformation = () => {
                     </ButtonGroup>
                    </Grid>
                 </div>
-
             </Grid>
-            </Grid>
+            </Grid>            
+            <Box marginTop="5rem" width="100%">
+              <Typography variant="h5" gutterBottom allign="center">Similar Movies You Might Like</Typography>
+              {/* Loop through the movies array and create a card for each movie */}
+            </Box> 
             </Grid>
         </Grid>        
     );
