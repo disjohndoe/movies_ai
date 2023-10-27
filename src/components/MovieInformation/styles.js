@@ -5,7 +5,7 @@ export default makeStyles((theme) => (
     containerSpaceAround: {
       display: 'flex',
       justifyContent: 'space-around',
-      margin: '10px 0 !important',
+      margin: '10px 0 !important',      
       [theme.breakpoints.down('sm')]: {
         flexDirection: 'column',
         flexWrap: 'wrap'
@@ -59,9 +59,24 @@ export default makeStyles((theme) => (
 
     buttonsContainer: {
       display: 'flex',
-      justifyContent: 'flex-center',
+      justifyContent: 'flex-center',      
       width:'auto',
       [theme.breakpoints.down('sm')]: { flexDirection: 'column' },
+    },
+
+    modal: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',      
+    },
+
+    video: {
+      width: '90%',
+      height: '75%',
+      [theme.breakpoints.down('sm')]: { 
+        width: '90%',
+        height: '90%'
+      },
     },
 }
 ));

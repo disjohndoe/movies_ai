@@ -3,7 +3,7 @@ import { makeStyles } from "@mui/styles";
 export default makeStyles((theme) => (
     {
         movie: {
-            padding: "10px"
+            padding: "10px"            
         },
         links: {
             alignItems: "center",
