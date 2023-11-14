@@ -9,7 +9,8 @@ export default makeStyles((theme) => (
     alignContent: "center",    
     flexShrink: "0",    
     [theme.breakpoints.down("sm")]: {
-        justifyContent: "center",
+      alignItems: "center",
+      marginLeft: "2.5rem",
     },
  }
     }));

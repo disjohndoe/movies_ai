@@ -110,9 +110,10 @@ const MovieInformation = () => {
             </Typography>
           </Box>
           <Typography variant="h6" align="center" gutterBottom>
-            {data?.runtime}min /{" "}
+            {console.log(data)}
+            {data?.runtime}min | Language: {" "}
             {data?.spoken_languages.length > 0
-              ? `${data?.spoken_languages[0].name}`
+              ? `${data?.original_language}`.toUpperCase()
               : ""}
           </Typography>
         </Grid>
@@ -147,7 +148,7 @@ const MovieInformation = () => {
         <Typography style={{ marginTop: "1rem" }} variant="h5" gutterBottom>
           Top Cast
         </Typography>
-        <Grid item container spacing={2}>
+        <Grid item container spacing={5} >
           {data &&
             data.credits?.cast
               .map(
@@ -170,9 +171,9 @@ const MovieInformation = () => {
                       />
                       <Typography color="textPrimary">
                         {character?.name}
-                      </Typography>
                       <Typography color="textSecondary">
                         {character?.character.split("/")[0]}
+                      </Typography>
                       </Typography>
                     </Grid>
                   )

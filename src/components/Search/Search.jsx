@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { TextField, InputAdornment } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 
 import { searchMovie } from '../../features/currentGenreOrCategory';
 import useStyles from './styles';
@@ -10,6 +11,7 @@ const Search = () => {
   const classes = useStyles();
   const [query, setQuery] = useState('');
   const dispatch = useDispatch();
+  const location = useLocation();
     
 
   const handleKeyPress = (e) => {
@@ -18,6 +20,8 @@ const Search = () => {
     }
 
   }
+
+  if (location.pathname !== '/') return null;
 
   return (
     <div className='{classes.searchContainer'>

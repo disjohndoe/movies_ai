@@ -7,30 +7,37 @@ import {
   CircularProgress,
 } from "@mui/material";
 
+import { useEffect } from "react";
+
 import useStyles from './styles'
 
 import { useHistory, useParams } from "react-router-dom";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { MovieList } from '..'
+import { Pagination, MovieList } from '../index'
 
 import { useGetActorsDetailsQuery, useGetMoviesByActorIdQuery } from "../../services/TMDB"
+// import { current } from "@reduxjs/toolkit";
 
 const Actors = () => {
-    const { id } = useParams();
-    const history = useHistory();
-    const classes = useStyles();
-    const page = 1;
+  const [page, setPage] = useState(1);  
+  const { id } = useParams();
+  const history = useHistory();
+  const classes = useStyles();
 
-    const { data, error, isFetching } = useGetActorsDetailsQuery(id);
-    const { data: movies } = useGetMoviesByActorIdQuery(id, page);
+  console.log(page);
+  
+  const { data, error, isFetching } = useGetActorsDetailsQuery(id);
+  const { data: movies } = useGetMoviesByActorIdQuery( {id, page} );
+  
+  
     if (isFetching) {
-    return (
-      <Box display="flex" justifyContent="center">
+      return (
+        <Box display="flex" justifyContent="center">
         <CircularProgress size="8rem" />
       </Box>
     );
   }
-
+  
   if (error) {
     return (
       <Box display="flex" justifyContent="center" alignItems={'center'}>
@@ -38,9 +45,9 @@ const Actors = () => {
       </Box>
     );
   }
-    
-    return (
-        <>
+  
+  return (
+    <>
         <Grid container spacing={3}>
             <Grid item lg={5} xl={4}>
             <img
@@ -69,6 +76,10 @@ const Actors = () => {
             More Movies From {data?.name}
             </Typography>
             {movies && <MovieList movies={movies} numberOfMovies={12} />}
+            <p align="center">
+              
+            </p>
+            <Pagination currentPage={page} setPage={setPage} totalPages={movies?.total_pages} />
             </Box>
         </Grid>
 

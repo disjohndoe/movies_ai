@@ -27,32 +27,33 @@ export const tmdbApi = createApi({
                 return `discover/movie?api_key=${tmdbApiKey}&with_genres=${genreIDOrCategoryName}&page=${page}`;
                 
             }
+            
             // Get Popular Movies
             return `movie/popular?api_key=${tmdbApiKey}&page=${page}`
             }
 
-        }),
+            }),
 
-        //* Get Movie
-        getMoviePage: builder.query({
-            query: (id) => `movie/${id}?append_to_response=videos,credits&api_key=${tmdbApiKey}`,
-        }),
+            //* Get Movie
+            getMoviePage: builder.query({
+                query: (id) => `movie/${id}?append_to_response=videos,credits&api_key=${tmdbApiKey}`,
+            }),
 
-        //* Get User Specific Movie Lists
-        getRecommedations: builder.query({
-      query: ({ movie_id, list }) => `movie/${movie_id}/${list}?api_key=${tmdbApiKey}`,
-    }),
+            //* Get User Specific Movie Lists
+            getRecommedations: builder.query({
+                query: ({ movie_id, list }) => `movie/${movie_id}/${list}?api_key=${tmdbApiKey}`,
+            }),
 
-        //* Get Actor's Details
-        getActorsDetails: builder.query({
-      query: (id) => `person/${id}?api_key=${tmdbApiKey}`
+            //* Get Actor's Details
+            getActorsDetails: builder.query({
+                query: (id) => `person/${id}?api_key=${tmdbApiKey}`
+            }),
+            //* Get Actor's Movies
+            getMoviesByActorId: builder.query({
+                query: ( {id, page} ) => `discover/movie?with_cast=${id}&page=${page}&api_key=${tmdbApiKey}`,            
+            }),
     }),
-        //* Get Actor's Movies
-        getMoviesByActorId: builder.query({
-      query: (id, page) => `/discover/movie?with_cast=${id}&page=${page}&api_key=${tmdbApiKey}`
-    }),
-}),
-});
+    });
 
 export const { 
     useGetMovieQuery,
