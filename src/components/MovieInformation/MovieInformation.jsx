@@ -273,10 +273,10 @@ const MovieInformation = () => {
                   <Button
                     onClick={addToWatchlist}
                     endIcon={
-                      isMovieWatchlisted ? <RemoveFromQueue /> : <DomainVerificationIcon />
+                      isMovieWatchlisted ? <DomainVerificationIcon /> : <RemoveFromQueue />
                     }
                   >
-                    {isMovieWatchlisted ? "Watchlist" : "Watchlisted!"}
+                    {isMovieWatchlisted ? "Watchlisted!" : "Watchlist"}
                   </Button>
                   <Button
                     endIcon={<ArrowBack />}
