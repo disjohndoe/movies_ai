@@ -22,9 +22,7 @@ const Actors = () => {
   const [page, setPage] = useState(1);  
   const { id } = useParams();
   const history = useHistory();
-  const classes = useStyles();
-
-  console.log(page);
+  const classes = useStyles();  
   
   const { data, error, isFetching } = useGetActorsDetailsQuery(id);
   const { data: movies } = useGetMoviesByActorIdQuery( {id, page} );

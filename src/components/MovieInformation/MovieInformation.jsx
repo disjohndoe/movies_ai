@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Modal,
   Typography,
@@ -10,6 +10,7 @@ import {
   useMediaQuery,
   Rating,
 } from "@mui/material";
+import DomainVerificationIcon from '@mui/icons-material/DomainVerification';
 import {
   Movie as MovieIcon,
   Theaters,
@@ -28,6 +29,7 @@ import axios from "axios";
 import {
   useGetMoviePageQuery,
   useGetRecommedationsQuery,
+  useGetListQuery,
 } from "../../services/TMDB";
 import { MovieList } from "..";
 
@@ -36,23 +38,62 @@ import genreIcons from "../../assets/genres";
 import { selectGenreOrCategory } from "../../features/currentGenreOrCategory";
 import useStyles from "./styles";
 import Movie from "../Movie/Movie";
+import { userSelector } from "../../features/auth";
 
 const MovieInformation = () => {
+  const { user } = useSelector(userSelector)
   const { id } = useParams();
-  const { data, error, isFetching } = useGetMoviePageQuery(id);
   const classes = useStyles();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-
+  
+  const { data, error, isFetching } = useGetMoviePageQuery(id);
+  const { data: favoriteMovies} = useGetListQuery({ listName: 'favorite/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
+  const { data: watchlistMovies} = useGetListQuery({ listName: 'watchlist/movies', accountId: user.id, sessionId: localStorage.getItem('session_id'), page: 1 });
   const { data: recommendations, isFetching: isRecommendationFetching } =
     useGetRecommedationsQuery({ list: "/recommendations", movie_id: id });
+  
+  const [isMovieFavorited, setIsMovieFavorited] = useState(false);
+  const [isMovieWatchlisted, setIsMovieWatchlisted] = useState(false);
 
-  const isMovieFavorited = false;
-  const isMovieWatchlisted = false;
+  useEffect(() => {
+    setIsMovieFavorited(!!favoriteMovies?.results?.find((movie) => movie?.id === data?.id));
+  }, [favoriteMovies, data])
 
-  const addToFavorites = () => {};
+  useEffect(() => {
+    setIsMovieWatchlisted(!!watchlistMovies?.results?.find((movie) => movie?.id === data?.id));
+  }, [watchlistMovies, data])
 
-  const addToWatchlist = () => {};
+  const addToFavorites = async () => {
+
+    axios.post(`https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`, {
+  
+      media_type: 'movie',
+      media_id: id,
+      favorite: !isMovieFavorited,
+    });
+    
+    setIsMovieFavorited((prev) => !prev);
+    
+  };
+  
+  const addToWatchlist = async () => {
+    try {
+      await axios.post(
+        `https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${process.env.REACT_APP_TMDB_KEY}&session_id=${localStorage.getItem('session_id')}`,
+        {
+          media_type: 'movie',
+          media_id: id,
+          watchlist: !isMovieWatchlisted,
+        }
+      );
+      
+      setIsMovieWatchlisted((prev) => !prev);
+    } catch (error) {
+      // Handle error
+      console.error('Error adding to watchlist:', error);
+    }
+  };
 
   if (isFetching) {
     return (
@@ -109,8 +150,7 @@ const MovieInformation = () => {
               {data?.vote_average.toFixed(1)} / 10
             </Typography>
           </Box>
-          <Typography variant="h6" align="center" gutterBottom>
-            {console.log(data)}
+          <Typography variant="h6" align="center" gutterBottom>            
             {data?.runtime}min | Language: {" "}
             {data?.spoken_languages.length > 0
               ? `${data?.original_language}`.toUpperCase()
@@ -129,6 +169,7 @@ const MovieInformation = () => {
                 src={genreIcons[genre.name.toLowerCase()]}
                 className={classes.genreImage}
                 height={30}
+                alt=""
               />
               <Typography color="textPrimary" variant="subtitle1">
                 {genre?.name}{" "}
@@ -156,9 +197,10 @@ const MovieInformation = () => {
                   character.profile_path && (
                     <Grid
                       item
-                      container
+                      container                      
                       xs={4}
-                      md={2}
+                      md={3}
+                      xl={6}
                       key={i}
                       component={Link}
                       to={`/actors/${character.id}`}
@@ -169,12 +211,16 @@ const MovieInformation = () => {
                         src={`https://image.tmdb.org/t/p/w500/${character.profile_path}`}
                         alt={character.name}
                       />
-                      <Typography color="textPrimary">
+                      
+                      <Typography color="textPrimary" component={'span'}>
                         {character?.name}
-                      <Typography color="textSecondary">
+                        <br />
+                        
+                      <Typography color="textSecondary" component={'span'}>
                         {character?.character.split("/")[0]}
                       </Typography>
                       </Typography>
+                      
                     </Grid>
                   )
               )
@@ -227,10 +273,10 @@ const MovieInformation = () => {
                   <Button
                     onClick={addToWatchlist}
                     endIcon={
-                      isMovieWatchlisted ? <RemoveFromQueue /> : <AddToQueue />
+                      isMovieWatchlisted ? <RemoveFromQueue /> : <DomainVerificationIcon />
                     }
                   >
-                    Watchlist
+                    {isMovieWatchlisted ? "Watchlist" : "Watchlisted!"}
                   </Button>
                   <Button
                     endIcon={<ArrowBack />}

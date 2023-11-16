@@ -6,11 +6,11 @@ export default makeStyles((theme) => (
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    alignContent: "center",    
+   //  alignContent: "center",   
     flexShrink: "0",    
     [theme.breakpoints.down("sm")]: {
       alignItems: "center",
-      marginLeft: "2.5rem",
+      marginLeft: "2.8rem",
     },
  }
     }));
