@@ -27,7 +27,7 @@ function Sidebar({ setMobileOpen }) {
 
   useEffect(() => {
     setMobileOpen(false);
-  }, [genreIdOrCategoryName]);
+  }, [genreIdOrCategoryName, setMobileOpen]);
 
   return (
     <>
