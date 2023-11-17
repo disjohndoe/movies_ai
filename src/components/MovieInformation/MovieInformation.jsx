@@ -228,7 +228,7 @@ const MovieInformation = () => {
           <Grid item container style={{ marginTop: "2rem" }}>
             <div className={classes.buttonsContainer}>
               <Grid item xs={12} sm={6}>
-                <ButtonGroup size="medium" variant="outlined">
+                <ButtonGroup size="small" variant="outlined">
                   <Button
                     target="_blank"
                     rel="noopener noreferrer"
@@ -257,7 +257,7 @@ const MovieInformation = () => {
                 </ButtonGroup>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <ButtonGroup size="medium" variant="outlined">
+                <ButtonGroup size="small" variant="outlined">
                   <Button
                     onClick={addToFavorites}
                     endIcon={
@@ -273,10 +273,10 @@ const MovieInformation = () => {
                   <Button
                     onClick={addToWatchlist}
                     endIcon={
-                      isMovieWatchlisted ? <DomainVerificationIcon /> : <RemoveFromQueue />
-                    }
+                      isMovieWatchlisted ?  <RemoveFromQueue /> : <DomainVerificationIcon />}
+                      style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}
                   >
-                    {isMovieWatchlisted ? "Watchlisted!" : "Watchlist"}
+                    {isMovieWatchlisted ? "Remove WL" : "Add To WL"}
                   </Button>
                   <Button
                     endIcon={<ArrowBack />}
@@ -288,7 +288,7 @@ const MovieInformation = () => {
                       component={Link}
                       to="/"
                       color="inherit"
-                      variant="subtitle1"
+                      variant="small"                   
                       style={{ textDecoration: "none" }}
                     >
                       Back
