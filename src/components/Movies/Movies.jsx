@@ -13,7 +13,9 @@ const Movies = () => {
     const lg = useMediaQuery((theme) => theme.breakpoints.only('lg'));
     
     const numberOfMovies = lg ? 16 : 18;
-    
+        
+    const randomIndex = Math.floor(Math.random() * 20)
+
     if (isFetching) {
         return (
             <Box display="flex" justifyContent="center">
@@ -37,7 +39,7 @@ const Movies = () => {
 
         return (
                 <div>
-                <FeaturedMovie movie={data?.results[0]} />
+                <FeaturedMovie movie={ data.results[randomIndex] } />
                     <MovieList movies = {data} numberOfMovies={numberOfMovies} />
                     <Pagination currentPage={page} setPage={setPage} totalPages={data.total_pages} />
                 </div>
