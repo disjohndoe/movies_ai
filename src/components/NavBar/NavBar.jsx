@@ -86,7 +86,7 @@ const NavBar = () => {
                                 <Avatar
                                     style={{ width: 35, height: 35 }}
                                     alt="Profile"
-                                    src={`https://www.themoviedb.org/t/p/w64_and_h64_face${user?.avatar?.tmdb?.avatar_path}`}
+                                    src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Default-avatar.jpg"
                                 />
                             </Button>
                         )}
